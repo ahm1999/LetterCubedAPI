@@ -1,0 +1,6 @@
+@LettercubedApi_HostAddress = http://localhost:5108
+
+GET {{LettercubedApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
