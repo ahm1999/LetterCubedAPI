@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
@@ -62,9 +62,9 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 app.MapGroup("/Api/")
-   .MapIdentityApi<IdentityUser>();
+   .MapIdentityApi<AppUser>();
 
-app.MapPost("/Api/SetRoleUser", async Task<Results<Ok, NotFound, ProblemHttpResult>> (HttpContext context, [FromServices] SignInManager<IdentityUser> _signInManager) =>
+app.MapPost("/Api/SetRoleUser", async Task<Results<Ok, NotFound, ProblemHttpResult>> (HttpContext context, [FromServices] SignInManager<AppUser> _signInManager) =>
 {
     var userId = _signInManager.UserManager.GetUserId(context.User);
 
@@ -124,7 +124,7 @@ using (var scope = app.Services.CreateScope())
 using (var scope = app.Services.CreateScope())
 {
 
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
     string email = "admin@email.com";
     string password = "132465_Ahmed";
@@ -133,7 +133,7 @@ using (var scope = app.Services.CreateScope())
     {
 
 
-        var user = new IdentityUser();
+        var user = new AppUser();
 
         user.Email = email;
         user.UserName = email;

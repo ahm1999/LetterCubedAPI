@@ -4,6 +4,7 @@ using LettercubedApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LettercubedApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240805120330_Adding Movies And reviews")]
+    partial class AddingMoviesAndreviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,26 +116,6 @@ namespace LettercubedApi.Migrations
                     b.HasIndex("AddedByUserId");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("LettercubedApi.Models.PromotionsLogs", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Promotion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PromotionsLogs");
                 });
 
             modelBuilder.Entity("LettercubedApi.Models.Reviews", b =>
