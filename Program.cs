@@ -1,4 +1,5 @@
 using LettercubedApi.Data;
+using LettercubedApi.Repositories;
 using LettercubedApi.utils;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,7 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+    options => {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+
+    });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -58,6 +64,11 @@ builder.Services.AddSwaggerGen(option =>
     }
 });
 });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddTransient<IMovieMapper, MovieMapper>();
+
 
 
 var app = builder.Build();
