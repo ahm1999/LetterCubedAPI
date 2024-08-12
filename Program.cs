@@ -67,7 +67,9 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IMovieMapper, MovieMapper>();
+builder.Services.AddTransient<IReviewMapper, ReviewMapper>();
 
 
 

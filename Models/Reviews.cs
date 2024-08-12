@@ -9,7 +9,11 @@ namespace LettercubedApi.Models
 
         public string Content { get; set; }
 
+        public string Title { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
+        public int Rating { get; set; }
 
         [ForeignKey("AppUser")]
         public string AppUserId { get; set; }
