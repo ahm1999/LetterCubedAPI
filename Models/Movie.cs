@@ -18,5 +18,9 @@ namespace LettercubedApi.Models
         public string AddedByUserId { get; set; }
 
         public AppUser AppUser { get; set; }
+
+        //public ICollection<Actor> Actors { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
     }
 }

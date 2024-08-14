@@ -14,6 +14,11 @@ namespace LettercubedApi.Repositories
         public Task<MovieResponseDTO> UpdateMovie(Guid Id,MovieDTO userData);
 
         public Task<Guid> DeleteMovie(Guid id);
+
+        public Task<Guid> AddCategory(CategoryDTO userData);
+
+        public Task<Guid> AddMovieToCategory(Guid CategoryId, Guid MovieId);
+        public Task<CategoryResponseDTO> GetAllMoviesInCategory(Guid CategoryId);
     
 
 

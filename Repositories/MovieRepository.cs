@@ -4,6 +4,7 @@ using LettercubedApi.Models;
 using LettercubedApi.utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System.Reflection;
 
 namespace LettercubedApi.Repositories
@@ -14,12 +15,14 @@ namespace LettercubedApi.Repositories
         private readonly UserManager<AppUser> _userManager;
         private readonly IMovieMapper _movieMapper;
         private readonly IHttpContextAccessor _accessor;
-        public MovieRepository(AppDbContext context,UserManager<AppUser> userManager, IMovieMapper mapper, IHttpContextAccessor accessor)
+        private readonly ILogger<MovieRepository> _logger;
+        public MovieRepository(ILogger<MovieRepository> logger, AppDbContext context,UserManager<AppUser> userManager, IMovieMapper mapper, IHttpContextAccessor accessor)
         {
             _context = context;
             _userManager = userManager;
             _movieMapper = mapper;
             _accessor = accessor;
+            _logger = logger;
         }
         public async Task<MovieResponseDTO> CreateMovie(MovieDTO userData)
         {
@@ -65,6 +68,51 @@ namespace LettercubedApi.Repositories
             _context.Movies.Remove(Movie);
             await _context.SaveChangesAsync();
             return Id;  
+        }
+
+        public async Task<Guid> AddCategory(CategoryDTO userData)
+        {
+            Guid CategoryId = Guid.NewGuid();
+            Category category = new Category()
+            {
+                Id = CategoryId,
+                Name = userData.Name,
+                Description = userData.Description
+            };
+
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
+            return CategoryId;
+        }
+
+        public async Task<Guid> AddMovieToCategory(Guid CategoryId, Guid MovieId)
+        {
+            
+            await _context.Database.ExecuteSqlAsync($"INSERT INTO CategoryMovie (CategoriesId,MoviesId) VALUES ({CategoryId},{MovieId})");
+
+            return CategoryId;
+
+
+        }
+
+        public async Task<CategoryResponseDTO> GetAllMoviesInCategory(Guid CategoryId)
+        {
+            var Category = await _context.Categories.Include(c => c.Movies).FirstOrDefaultAsync(c => c.Id == CategoryId);
+
+            if (Category == null) return null;
+
+            List<MovieResponseDTO> moviesDtos = _movieMapper.MovieToResponseDTO(Category.Movies.ToList());
+            CategoryResponseDTO res = new CategoryResponseDTO()
+            {
+
+                Id = Category.Id,
+                Name = Category.Name,
+                Description = Category.Description,
+                Movies = moviesDtos
+
+            };
+
+            return res;
         }
     }
 }
