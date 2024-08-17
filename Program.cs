@@ -68,6 +68,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IWatchListRepository, WatchListRepository>();
 builder.Services.AddTransient<IMovieMapper, MovieMapper>();
 builder.Services.AddTransient<IReviewMapper, ReviewMapper>();
 
@@ -122,7 +123,7 @@ using (var scope = app.Services.CreateScope())
 
     var roleManeger =
         scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { RolesConsts.USER, RolesConsts.ADMIN,RolesConsts.EDITOR };
+    var roles = new[] { RolesConsts.USER, RolesConsts.ADMIN, RolesConsts.EDITOR };
     foreach (var role in roles)
     {
         if (!await roleManeger.RoleExistsAsync(role))

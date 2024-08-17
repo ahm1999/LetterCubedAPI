@@ -1,5 +1,6 @@
 ﻿using LettercubedApi.Models;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LettercubedApi.Data
 {
@@ -8,6 +9,9 @@ namespace LettercubedApi.Data
         public ICollection<Movie> MoviesByUser { get; set; }
 
         public ICollection<Reviews> ReviewsByUser { get; set; }
+
+        
+       
 
     }
 }

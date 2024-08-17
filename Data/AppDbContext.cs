@@ -20,7 +20,9 @@ namespace LettercubedApi.Data
         //public DbSet<Actor> Actors { get; set; }
          public DbSet<Category> Categories { get; set; }
          public DbSet<MovieCategory> MovieCategories { get; set; }
-
+         
+        public DbSet<WatchList> WatchLists { get; set; }
+        public DbSet<WatchListItem> WatchListItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
